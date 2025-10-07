@@ -1,68 +1,72 @@
-# Evaluation Transcript
-- https://copilot.microsoft.com/shares/xbV6KzcxpiguTNtz5T4Z5
-  
+# Transcript — Autonomous Robot Evaluation
+- https://copilot.microsoft.com/shares/Jc6ZQUaoyQ2UV9mGPhuEX (100/100)
+- https://chatgpt.com/share/68e58672-89c8-800e-b34f-c29d47a1abec (89/100)
+
 **Original Prompt:**  
-Evaluate Arduino C robot control code for autonomous navigation toward a light beacon with obstacle avoidance using behaviour-based robotics.  
-Accepted arbitration techniques: FSM, BT, or Subsumption.  
-Disqualify if line/wall following is primary.  
-Rubric: Behaviours, Control System, Arbitration & Degradation, Code Quality (0–25 each).
+Evaluate Arduino C robot control code for autonomous navigation toward a light beacon with obstacle avoidance using behaviour-based robotics. Accepted arbitration techniques: FSM, BT, Subsumption. Score using rubric. Disqualify if primary task is not light tracking + obstacle avoidance.
 
 ---
 
-## 1. Arbitration Technique Detected
-
-**FSM (Finite State Machine)**  
-- `enum RobotState` defines states.  
-- `updateState()` handles transitions.  
-- `handleState()` dispatches behaviours.
+## Arbitration Technique Detected
+**FSM** — evidenced by `enum RobotState`, `currentState`, and structured `updateState()` and `handleState()` logic.
 
 ---
 
-## 2. Disqualification Check
-
-**Pass**  
-- Primary behaviours are light tracking and obstacle avoidance.  
-- No line/wall following detected.
+## Disqualification Check
+**Pass** — primary behaviours are light beacon tracking and obstacle avoidance.
 
 ---
 
-## 3. Rubric Scores
+## Rubric Scores MICROSOFT COPILOT
 
 | Category                  | Score |
 |--------------------------|-------|
-| Behaviours               | 24    |
-| Control System           | 23    |
+| Behaviours               | 25    |
+| Control System           | 25    |
 | Arbitration & Degradation| 25    |
-| Code Quality             | 24    |
-| **Total**                | **96**|
+| Code Quality             | 25    |
+| **Total**                | **100**|
 
 ---
 
-## 4. Analysis & Reasoning
+## Rubric Scores CHATGPT
 
-- Servo + ballistic behaviours evident.
-- Ultrasonic smoothing and adaptive fallback.
-- FSM arbitration with graceful degradation.
-- Modular structure with clear naming.
+| Category                  | Score  |
+| ------------------------- | ------ |
+| Behaviours                | 22     |
+| Control System            | 22     |
+| Arbitration & Degradation | 23     |
+| Code Quality              | 22     |
+| **Total**                 | **89** |
+
+
+
+---
+## Analysis & Reasoning
+
+- Servo & ballistic behaviours clearly implemented via light-seeking biasing and timed recovery phases.
+- Ultrasonic readings filtered with timeout and spike rejection.
+- Light sensor health tracked via rolling buffer and saturation checks.
+- FSM arbitration with robust fallback logic and retry-limited recovery.
+- Graceful degradation via single-eye mode and mirrored readings.
+- Modular code with minimal logic in loop(), clear naming, and instructional comments.
 
 ---
 
-## 5. Recommendations (non-code)
+## Recommendations (non-code)
 
-- Add motor clamping for safety.
-- Use delta threshold for light stuck detection.
-- Optional: CSV logging, calibration routine, encoder feedback.
+- Log sensor health transitions and recovery attempts for diagnostics.
+- Consider dynamic light threshold calibration.
+- Extend stuck detection to include light sensor stagnation.
 
 ---
 
-## 6. Commonality & Distinctiveness
+## Commonality & Distinctiveness
 
-- **Commonality:** FSM and sensor usage follow standard Arduino patterns.  
+- **Commonality:** FSM structure and sensor usage align with standard Arduino robotics templates.
 - **Distinctiveness:**  
-  - Adaptive ultrasonic fallback.  
-  - Zigzag drift in single-eye mode.  
-  - Non-blocking action phases.  
-  - Stuck detection via motion + sensor deltas.
-
-Assessment based solely on visible code structure.
+  - Adaptive single-eye mode with mirrored readings and zigzag drift.  
+  - Non-blocking recovery phases with capped retries.  
+  - Sensor health tracking via rolling buffers.  
+  - Exceptional instructional clarity and auditability.
 
